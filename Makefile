@@ -1,7 +1,7 @@
 NAME		= minitalk
 CLIENT		= client
 SERVER		= server
-C_SRCS		= clent_main.c
+C_SRCS		= client_main.c utils.c
 S_SRCS		= server_main.c
 # BONUS_SRCS	= 	
 C_OBJS		= $(C_SRCS:%.c=%.o)
@@ -13,8 +13,8 @@ CFLAGS		= -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(C_OBJS) $(S_OBJS)
-	$(CC) $(CFLAGS) $(C_OBJS) -o $(CLENT)
-	$(CC) $(CFLAGS) $(S_OBJS) -o $(SEVER)
+	$(CC) $(CFLAGS) $(C_OBJS) -o $(CLIENT)
+	$(CC) $(CFLAGS) $(S_OBJS) -o $(SERVER)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
@@ -27,7 +27,7 @@ clean:
 	rm -f $(C_OBJS) $(S_OBJS)
 
 fclean: clean
-	rm -f $(CLENT) $(SERVER)
+	rm -f $(CLIENT) $(SERVER)
 
 re: fclean all
 
