@@ -2,7 +2,7 @@ NAME		= minitalk
 CLIENT		= client
 SERVER		= server
 C_SRCS		= client_main.c utils.c
-S_SRCS		= server_main.c
+S_SRCS		= server_main.c utils.c
 # BONUS_SRCS	= 	
 C_OBJS		= $(C_SRCS:%.c=%.o)
 S_OBJS		= $(S_SRCS:%.c=%.o)
