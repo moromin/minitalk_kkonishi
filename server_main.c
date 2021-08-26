@@ -39,7 +39,6 @@ static void	receive_client_pid(t_vars *vars)
 {
 	if (vars->count % 8 == 0)
 	{
-		vars->pid_client = 0;
 		vars->uc = 0;
 		vars->i = 1;
 	}
@@ -48,14 +47,16 @@ static void	receive_client_pid(t_vars *vars)
 	vars->count++;
 	if (g_receive_signal == SIGUSR2)
 		vars->uc += vars->i;
-	if (vars->uc == 0x04)
+	if (vars->uc == 0x04 && vars->count % 8 == 0)
 	{
-		kill(vars->pid_client, SIGUSR1);
+		if (kill(vars->pid_client, SIGUSR1) == -1)
+			write(2, "Error\n", 6);
 		vars->flag = 1;
 		return ;
 	}
 	if (vars->count % 8 == 0)
 		vars->pid_client = vars->pid_client * 10 + (vars->uc - '0');
+	// printf("pid:%d, uc:%d, flag:%d\n", vars->pid_client, vars->uc, vars->flag);
 }
 
 int	main(void)
@@ -66,6 +67,7 @@ int	main(void)
 	pid_server = getpid();
 	vars.count = 0;
 	vars.flag = 0;
+	vars.pid_client = 0;
 	ft_putnbr_fd(pid_server, 1);
 	set_signal();
 	while (1)
@@ -77,7 +79,6 @@ int	main(void)
 			if (vars.flag == 1)
 				bit_to_string(&vars);
 		}
-		printf("%d\n", vars.pid_client);
 		pause();
 	}
 	return (0);

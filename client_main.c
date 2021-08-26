@@ -68,6 +68,7 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	args_check(argc, argv);
 	set_signal();
+	printf("clientPID:%d\n", pid_client);
 	while (str[i])
 	{
 		send_char((pid_t)ft_atoi(argv[1]), str[i]);
@@ -83,7 +84,10 @@ int	main(int argc, char *argv[])
 	while (1)
 	{
 		if (g_receive_signal == SIGUSR1)
+		{
 			write(1, "ACK received!\n", 14);
+			break ;
+		}
 		pause();
 	}
 	return (0);
