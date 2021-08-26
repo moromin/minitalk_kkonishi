@@ -1,5 +1,23 @@
 #include "minitalk.h"
 
+volatile int	g_receive_signal;
+
+void	handle_signal(int signal)
+{
+	g_receive_signal = signal;
+}
+
+void	set_signal(void)
+{
+	struct sigaction	act;
+
+	ft_bzero(&act, sizeof(struct sigaction));
+	act.sa_handler = &handle_signal;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &act, NULL);
+}
+
 void	args_check(int argc, char *argv[])
 {
 	if (argc != 3)
@@ -49,19 +67,24 @@ int	main(int argc, char *argv[])
 	if (!str)
 		exit(EXIT_FAILURE);
 	args_check(argc, argv);
-	// while (1)
-	// {
-	// 	send_char((pid_t)ft_atoi(argv[1]), str[i]);
-	// 	if (str[i] == 0)
-	// 		break ;
-	// 	i++;
-	// }
-	// i = 0;
+	set_signal();
+	while (str[i])
+	{
+		send_char((pid_t)ft_atoi(argv[1]), str[i]);
+		i++;
+	}
+	free(str);
+	i = 0;
 	while (argv[2][i])
 	{
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i]);
 		i++;
 	}
-	free(str);
+	while (1)
+	{
+		if (g_receive_signal == SIGUSR1)
+			write(1, "ACK received!\n", 14);
+		pause();
+	}
 	return (0);
 }
