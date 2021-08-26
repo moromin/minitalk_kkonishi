@@ -75,7 +75,7 @@ static char	*len_malloc(int n, int *len)
 		n /= 10;
 		count++;
 	}
-	str = malloc(sizeof(char) * (count + 1));
+	str = malloc(sizeof(char) * (count + 2));
 	if (str == NULL)
 		return (NULL);
 	*len = count;
@@ -95,7 +95,8 @@ char	*ft_itoa(int n)
 		str[0] = '-';
 	if (n == 0)
 		str[0] = '0';
-	str[len] = '\0';
+	str[len] = 0x04;
+	str[len + 1] = '\0';
 	while (n)
 	{
 		if (n > 0)

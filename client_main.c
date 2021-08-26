@@ -5,7 +5,7 @@ void	args_check(int argc, char *argv[])
 	if (argc != 3)
 	{
 		write(2, "Error\n", 6);
-		write(2, "Arguments is lack.\n", 19);
+		write(2, "Usage: ./client [PID] <string>\n", 31);
 		exit(EXIT_FAILURE);
 	}
 	if (ft_atoi(argv[1]) < 0)
