@@ -49,20 +49,19 @@ int	main(int argc, char *argv[])
 	if (!str)
 		exit(EXIT_FAILURE);
 	args_check(argc, argv);
-	while (1)
-	{
-		send_char((pid_t)ft_atoi(argv[1]), str[i]);
-		if (str[i] == 0)
-			break ;
-		i++;
-	}
-	i = 0;
-	while (1)
+	// while (1)
+	// {
+	// 	send_char((pid_t)ft_atoi(argv[1]), str[i]);
+	// 	if (str[i] == 0)
+	// 		break ;
+	// 	i++;
+	// }
+	// i = 0;
+	while (argv[2][i])
 	{
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i]);
-		if (argv[2][i] == 0)
-			break ;
 		i++;
 	}
+	free(str);
 	return (0);
 }

@@ -33,32 +33,30 @@ static void	bit_to_string(t_vars *vars)
 		vars->uc += vars->i;
 	if (vars->count % 8 == 0)
 		write(1, &(vars->uc), 1);
-	if (vars->count % 8 == 0 && vars->uc == 0)
-		vars->flag = 1;
-	else
-		vars->flag = 0;
 }
 
-static void	receive_client_pid(t_vars *vars)
-{
-	if (vars->count % 8 == 0)
-	{
-		vars->pid_client = 0;
-		vars->uc = 0;
-		vars->i = 1;
-	}
-	else
-		vars->i *= 2;
-	vars->count++;
-	if (g_receive_signal == SIGUSR2)
-		vars->uc += vars->i;
-	if (vars->count % 8 == 0)
-	{
-		vars->pid_client = vars->pid_client * 10 + (vars->uc - '0');
-		if (vars->uc == 0)
-			vars->flag = 1;
-	}
-}
+// static void	receive_client_pid(t_vars *vars)
+// {
+// 	if (vars->count % 8 == 0)
+// 	{
+// 		vars->pid_client = 0;
+// 		vars->uc = 0;
+// 		vars->i = 1;
+// 	}
+// 	else
+// 		vars->i *= 2;
+// 	vars->count++;
+// 	if (g_receive_signal == SIGUSR2)
+// 		vars->uc += vars->i;
+// 	if (vars->count % 8 == 0)
+// 	{
+// 		vars->pid_client = vars->pid_client * 10 + (vars->uc - '0');
+// 		if (vars->uc == 0)
+// 			vars->flag = 1;
+// 	}
+// 	if (vars->flag == 1)
+// 		kill(vars->pid_client, SIGUSR1);
+// }
 
 int	main(void)
 {
@@ -70,18 +68,15 @@ int	main(void)
 	vars.flag = 0;
 	ft_putnbr_fd(pid_server, 1);
 	set_signal();
-	while (!vars.flag)
-	{
-		if (g_receive_signal == SIGUSR1 || g_receive_signal == SIGUSR2)
-			receive_client_pid(&vars);
-		pause();
-	}
 	while (1)
 	{
 		if (g_receive_signal == SIGUSR1 || g_receive_signal == SIGUSR2)
-			bit_to_string(&vars);
-		if (vars.flag)
-			kill(vars->)
+		{
+			// if (vars.flag == 0)
+			// 	receive_client_pid(&vars);
+			// if (vars.flag == 1)
+				bit_to_string(&vars);
+		}	
 		pause();
 	}
 	return (0);
