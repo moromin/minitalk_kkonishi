@@ -60,6 +60,7 @@ int	main(int argc, char *argv[])
 	pid_t	pid_client;
 	size_t	i;
 	char	*str;
+	size_t	size;
 
 	i = 0;
 	pid_client = getpid();
@@ -68,7 +69,7 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	args_check(argc, argv);
 	set_signal();
-	printf("clientPID:%d\n", pid_client);
+	// printf("clientPID:%d\n", pid_client);
 	while (str[i])
 	{
 		send_char((pid_t)ft_atoi(argv[1]), str[i]);
@@ -76,7 +77,9 @@ int	main(int argc, char *argv[])
 	}
 	free(str);
 	i = 0;
-	while (argv[2][i])
+	size = ft_strlen(argv[2]);
+	argv[2][size] = 0x04;
+	while (i < size + 1)
 	{
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i]);
 		i++;

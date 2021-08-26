@@ -33,6 +33,12 @@ static void	bit_to_string(t_vars *vars)
 		vars->uc += vars->i;
 	if (vars->count % 8 == 0)
 		write(1, &(vars->uc), 1);
+	if (vars->uc == 0x04 && vars->count % 8 == 0)
+	{
+		vars->flag = 0;
+		vars->pid_client = 0;
+	}
+	printf("count:%zu, uc:%d, flag:%d\n", vars->count, vars->uc, vars->flag);
 }
 
 static void	receive_client_pid(t_vars *vars)

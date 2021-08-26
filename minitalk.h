@@ -19,5 +19,6 @@ int		ft_atoi(char *str);
 void	ft_bzero(void *s, size_t n);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_itoa(int n);
+size_t	ft_strlen(char *str);
 
 #endif
