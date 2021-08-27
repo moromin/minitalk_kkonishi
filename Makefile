@@ -1,8 +1,9 @@
 NAME		= minitalk
 CLIENT		= client
 SERVER		= server
-C_SRCS		= client_main.c utils_1.c utils_2.c
-S_SRCS		= server_main.c utils_1.c utils_2.c
+COMMON		= utils_1.c utils_2.c signal.c
+C_SRCS		= client_main.c $(COMMON)
+S_SRCS		= server_main.c $(COMMON)
 # BONUS_SRCS	= 	
 C_OBJS		= $(C_SRCS:%.c=%.o)
 S_OBJS		= $(S_SRCS:%.c=%.o)
@@ -19,9 +20,9 @@ $(NAME): $(C_OBJS) $(S_OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-bonus: $(BONUS_OBJS) $(NAME)
-	make bonus -C $(GNL_PATH)
-	$(CC) $(CFLAGS) $(BONUS_OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -o $(BONUS_NAME)
+# bonus: $(BONUS_OBJS) $(NAME)
+# 	make bonus -C $(GNL_PATH)
+# 	$(CC) $(CFLAGS) $(BONUS_OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -o $(BONUS_NAME)
 
 clean:
 	rm -f $(C_OBJS) $(S_OBJS)
