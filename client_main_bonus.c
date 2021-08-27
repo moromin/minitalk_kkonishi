@@ -1,7 +1,5 @@
 #include "minitalk.h"
 
-extern int	g_receive_signal;
-
 void	args_check(int argc, char *argv[])
 {
 	if (argc != 3)
@@ -32,48 +30,43 @@ void	send_char(pid_t pid, char c)
 		bit = (uc >> i) & 0x01;
 		if (kill(pid, SIGUSR1 + bit) == -1)
 		{
-			write(2, "Error\n", 6);
+			write(2, "sending char error\n", 19);
 			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
 }
 
+void	client_handler(int signo, siginfo_t *info, void *context)
+{
+	(void)info;
+	(void)context;
+	if (signo == SIGUSR1)
+	{
+		write(1, "ACK received!\n", 14);
+		exit(EXIT_SUCCESS);
+	}
+}
+
 int	main(int argc, char *argv[])
 {
-	size_t	i;
-	char	*str;
-	size_t	size;
+	struct sigaction	act2;
+	size_t				i;
+	size_t				size;
 
-	i = 0;
-	str = ft_itoa(getpid());
-	if (!str)
-		exit(EXIT_FAILURE);
 	args_check(argc, argv);
-	// set_signal();
-	// printf("clientPID:%d\n", pid_client);
-	// while (str[i])
-	// {
-	// 	send_char((pid_t)ft_atoi(argv[1]), str[i]);
-	// 	i++;
-	// }
-	// free(str);
-	// i = 0;
-	size = ft_strlen(argv[2]);
-	// argv[2][size] = 0x04;
-	while (i < size)
+	act2.sa_sigaction = client_handler;
+	act2.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &act2, NULL) != 0)
 	{
-		send_char((pid_t)ft_atoi(argv[1]), argv[2][i]);
-		i++;
+		write(2, "sigcation error\n", 16);
+		return (1);
 	}
-	// while (1)
-	// {
-	// 	if (g_receive_signal == SIGUSR1)
-	// 	{
-	// 		write(1, "ACK received!\n", 14);
-	// 		break ;
-	// 	}
-	// 	pause();
-	// }
+	size = ft_strlen(argv[2]);
+	i = 0;
+	while (i < size + 1)
+		send_char((pid_t)ft_atoi(argv[1]), argv[2][i++]);
+	while (1)
+		pause();
 	return (0);
 }

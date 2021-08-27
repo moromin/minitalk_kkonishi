@@ -77,7 +77,10 @@ static char	*len_malloc(int n, int *len)
 	}
 	str = malloc(sizeof(char) * (count + 2));
 	if (str == NULL)
-		return (NULL);
+	{
+		write(2, "malloc error\n", 13);
+		exit(EXIT_FAILURE);
+	}
 	*len = count;
 	return (str);
 }
@@ -89,8 +92,6 @@ char	*ft_itoa(int n)
 
 	len = 0;
 	str = len_malloc(n, &len);
-	if (str == NULL)
-		return (NULL);
 	if (n < 0)
 		str[0] = '-';
 	if (n == 0)
