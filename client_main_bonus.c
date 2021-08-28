@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-size_t	g_count;
+volatile int	g_receive_signal;
 
 void	args_check(int argc, char *argv[])
 {
@@ -31,30 +31,22 @@ void	send_char(pid_t pid, char c)
 	i = 0;
 	while (i < 8)
 	{
-		usleep(50);
 		bit = (uc >> i) & 0x01;
 		if (kill(pid, SIGUSR1 + bit) == -1)
 		{
 			write(2, "sending char error\n", 19);
 			exit(EXIT_FAILURE);
 		}
+		pause();
 		i++;
 	}
 }
 
 void	client_handler(int signo, siginfo_t *info, void *context)
 {
-	static size_t	count;
-
 	(void)info;
 	(void)context;
-	if (signo == SIGUSR1)
-		count++;
-	if (count == g_count)
-	{
-		write(1, "ACK received!\n", 14);
-		exit(EXIT_SUCCESS);
-	}
+	g_receive_signal = signo;
 }
 
 int	main(int argc, char *argv[])
@@ -72,11 +64,8 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	size = ft_strlen(argv[2]);
-	g_count = size * 8;
 	i = 0;
 	while (i < size)
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i++]);
-	while (1)
-		pause();
 	return (0);
 }
