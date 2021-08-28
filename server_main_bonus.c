@@ -17,16 +17,13 @@ void	server_handler(int signo, siginfo_t *info, void *context)
 	count++;
 	if (signo == SIGUSR2)
 		uc += i;
-	if (count % 8 == 0 && uc == 0)
-	{
-		if (kill(info->si_pid, SIGUSR1) == -1)
-		{
-			write(1, "ACK sending error\n", 18);
-			exit(EXIT_FAILURE);
-		}
-	}
-	if (count % 8 == 0 && uc != 0)
+	if (count % 8 == 0)
 		write(1, &uc, 1);
+	if (kill(info->si_pid, SIGUSR1) == -1)
+	{
+		write(1, "ACK sending error\n", 18);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	main(void)
