@@ -31,13 +31,15 @@ void	send_char(pid_t pid, char c)
 	i = 0;
 	while (i < 8)
 	{
+		g_receive_signal = 0;
 		bit = (uc >> i) & 0x01;
 		if (kill(pid, SIGUSR1 + bit) == -1)
 		{
 			write(2, "sending char error\n", 19);
 			exit(EXIT_FAILURE);
 		}
-		pause();
+		while (g_receive_signal != SIGUSR1)
+			;
 		i++;
 	}
 }
