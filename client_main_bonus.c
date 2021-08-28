@@ -35,7 +35,6 @@ void	send_char(pid_t pid, char c)
 			write(2, "sending char error\n", 19);
 			exit(EXIT_FAILURE);
 		}
-		g_count++;
 		i++;
 	}
 }
@@ -70,7 +69,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	size = ft_strlen(argv[2]);
-	g_count = 0;
+	g_count = size * 8;
 	i = 0;
 	while (i < size)
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i++]);
