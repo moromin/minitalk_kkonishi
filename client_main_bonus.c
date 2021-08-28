@@ -4,13 +4,16 @@ size_t	g_count;
 
 void	args_check(int argc, char *argv[])
 {
+	pid_t	pid;
+
 	if (argc != 3)
 	{
 		write(2, "Error\n", 6);
 		write(2, "Usage: ./client [PID] [string]\n", 31);
 		exit(EXIT_FAILURE);
 	}
-	if (ft_atoi(argv[1]) < 0)
+	pid = (pid_t)ft_atoi(argv[1]);
+	if (pid <= 0 || kill(pid, 0) == -1)
 	{
 		write(2, "Error\n", 6);
 		write(2, "Invalid PID.\n", 13);

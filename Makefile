@@ -26,6 +26,9 @@ bonus: $(BONUS_C_OBJS) $(BONUS_S_OBJS)
 	$(CC) $(CFLAGS) $(BONUS_C_OBJS) -o $(CLIENT)
 	$(CC) $(CFLAGS) $(BONUS_S_OBJS) -o $(SERVER)
 
+# test:
+# 	$(CC) $(CFLAGS) test.c utils_1.c -o test
+
 clean:
 	rm -f $(C_OBJS) $(S_OBJS) $(BONUS_C_OBJS) $(BONUS_S_OBJS)
 
