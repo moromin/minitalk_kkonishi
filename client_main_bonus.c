@@ -67,7 +67,7 @@ int	main(int argc, char *argv[])
 	}
 	size = ft_strlen(argv[2]);
 	i = 0;
-	while (i < size)
+	while (i < size + 1)
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i++]);
 	return (0);
 }
