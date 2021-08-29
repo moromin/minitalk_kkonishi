@@ -15,6 +15,6 @@ typedef struct s_vars
 }	t_vars;
 
 // utils
-void	ft_putstr(unsigned char *s, int fd);
+void	ft_putstr(unsigned char *s, int fd, int size);
 
 #endif
