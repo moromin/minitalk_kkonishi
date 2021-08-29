@@ -6,6 +6,7 @@
 # include <libc.h>
 # include <signal.h>
 
+# include "./libft/libft.h"
 typedef struct s_vars
 {
 	size_t			count;
@@ -14,11 +15,6 @@ typedef struct s_vars
 }	t_vars;
 
 // utils
-int		ft_atoi(char *str);
-void	ft_bzero(void *s, size_t n);
-void	ft_putnbr_fd(int n, int fd);
-char	*ft_itoa(int n);
-size_t	ft_strlen(char *str);
-char	*ft_strjoin(char **s1, char *s2, size_t size1, size_t size2);
+void	ft_putstr(unsigned char *s, int fd);
 
 #endif

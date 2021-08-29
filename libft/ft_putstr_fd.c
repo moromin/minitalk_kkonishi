@@ -6,7 +6,7 @@
 /*   By: kkonishi <kkonishi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 18:05:51 by kkonishi          #+#    #+#             */
-/*   Updated: 2021/07/07 17:15:25 by kkonishi         ###   ########.fr       */
+/*   Updated: 2021/08/29 19:46:52 by kkonishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,5 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
 		return ;
-	if (*s)
-	{
-		write(fd, s, 1);
-		ft_putstr_fd(++s, fd);
-	}
-	else
-		return ;
+	write(fd, s, ft_strlen(s));
 }

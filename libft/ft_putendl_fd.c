@@ -6,7 +6,7 @@
 /*   By: kkonishi <kkonishi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 18:05:57 by kkonishi          #+#    #+#             */
-/*   Updated: 2021/07/07 18:29:46 by kkonishi         ###   ########.fr       */
+/*   Updated: 2021/08/29 19:47:22 by kkonishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@ void	ft_putendl_fd(char *s, int fd)
 {
 	if (!s)
 		return ;
-	if (*s)
-	{
-		write(fd, s, 1);
-		ft_putendl_fd(++s, fd);
-	}
-	else
-	{
-		write(fd, "\n", 1);
-		return ;
-	}
+	ft_putstr_fd(s, fd);
+	write(fd, "\n", 1);
 }
