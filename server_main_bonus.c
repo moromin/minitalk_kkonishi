@@ -1,10 +1,20 @@
 #include "minitalk.h"
 
+void	clear_buf(unsigned char *buf)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < BUFSIZ)
+		buf[i++] = 0;
+}
+
 void	server_handler(int signo, siginfo_t *info, void *context)
 {
 	static unsigned char	uc;
 	static int				i;
 	static int				count;
+	static unsigned char	buf[BUFSIZ];
 
 	(void)context;
 	if (count % 8 == 0)
@@ -18,7 +28,11 @@ void	server_handler(int signo, siginfo_t *info, void *context)
 	if (signo == SIGUSR2)
 		uc += i;
 	if (count % 8 == 0)
-		write(1, &uc, 1);
+		buf[count / 8 - 1] = uc;
+	if (count % 8 == 0 && (count / 8 == BUFSIZ - 1 || uc == 0))
+		write(1, buf, count / 8);
+	if (count / 8 == BUFSIZ - 1)
+		clear_buf(buf);
 	if (kill(info->si_pid, SIGUSR1) == -1)
 	{
 		write(1, "ACK sending error\n", 18);
