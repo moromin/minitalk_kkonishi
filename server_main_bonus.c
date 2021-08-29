@@ -14,7 +14,7 @@ void	print_message(unsigned char *buf, size_t *itr)
 	size_t	size;
 
 	size = *itr;
-	write(1, buf, size + 1);
+	write(1, buf, size);
 	*itr = 0;
 }
 
@@ -38,9 +38,9 @@ void	server_handler(int signo, siginfo_t *info, void *context)
 		uc += i;
 	if (count % 8 == 0)
 		buf[itr++] = uc;
-	if (count % 8 == 0 && (count / 8 == BUFSIZ - 1 || uc == 0))
+	if (count % 8 == 0 && (itr == BUFSIZ - 1 || uc == 0))
 		print_message(buf, &itr);
-	if (count / 8 == BUFSIZ - 1)
+	if (itr == BUFSIZ - 1)
 		clear_buf(buf);
 	if (kill(info->si_pid, SIGUSR1) == -1)
 		exit(EXIT_FAILURE);
