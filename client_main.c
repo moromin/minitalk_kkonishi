@@ -27,7 +27,7 @@ void	send_char(pid_t pid, char c)
 
 	uc = (unsigned char)c;
 	i = 0;
-	while (i < 32)
+	while (i < 8)
 	{
 		bit = (uc >> i) & 0x01;
 		if (kill(pid, SIGUSR1 + bit) == -1)

@@ -14,17 +14,18 @@ static void	server_loop(void)
 	static int32_t	uc;
 	static int		count;
 
-	while (g_signal > 0)
+	while (g_signal == 0)
 		;
 	if (g_signal == SIGUSR1)
 		uc &= ~(1 << count);
 	if (g_signal < 0)
 		uc |= (1 << count);
 	count++;
-	if (count == 32)
+	if (count == 8)
 	{
 		write(1, &uc, 1);
 		count = 0;
+		uc = 0;
 	}
 	if (g_signal < 0)
 		g_signal *= -1;
