@@ -7,6 +7,9 @@
 # include <signal.h>
 
 # include "./libft/libft.h"
+
+volatile sig_atomic_t	g_signal;
+
 typedef struct s_vars
 {
 	size_t			count;

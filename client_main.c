@@ -1,7 +1,5 @@
 #include "minitalk.h"
 
-static volatile sig_atomic_t	g_signal;
-
 void	args_check(int argc, char *argv[])
 {
 	pid_t	pid;
@@ -31,10 +29,7 @@ void	send_char(pid_t pid, char c)
 	i = 0;
 	while (i < 32)
 	{
-		// usleep(50);
 		bit = (uc >> i) & 0x01;
-		// printf("%d", bit);
-		printf("%d", SIGUSR1 + bit);
 		if (kill(pid, SIGUSR1 + bit) == -1)
 		{
 			write(2, "sending char error\n", 19);
