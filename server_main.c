@@ -16,7 +16,7 @@ static void	server_loop(void)
 
 	while (g_signal == 0)
 		;
-	if (g_signal == SIGUSR1)
+	if (g_signal > 0)
 		uc &= ~(1 << count);
 	if (g_signal < 0)
 		uc |= (1 << count);
@@ -39,6 +39,7 @@ int	main(void)
 
 	act.sa_sigaction = &server_handler;
 	act.sa_flags = SA_SIGINFO;
+	write(1, "server PID : ", 13);
 	ft_putnbr_fd(getpid(), 1);
 	write(1, "\n", 1);
 	g_signal = 0;
