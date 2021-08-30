@@ -29,10 +29,12 @@ void	send_char(pid_t pid, char c)
 
 	uc = (unsigned char)c;
 	i = 0;
-	while (i < 8)
+	while (i < 32)
 	{
-		g_signal = 0;
+		// usleep(50);
 		bit = (uc >> i) & 0x01;
+		// printf("%d", bit);
+		printf("%d", SIGUSR1 + bit);
 		if (kill(pid, SIGUSR1 + bit) == -1)
 		{
 			write(2, "sending char error\n", 19);
@@ -41,6 +43,7 @@ void	send_char(pid_t pid, char c)
 		i++;
 		while (g_signal == 0)
 			;
+		g_signal = 0;
 	}
 }
 
@@ -59,8 +62,9 @@ int	main(int argc, char *argv[])
 	size_t				size;
 
 	args_check(argc, argv);
-	act2.sa_sigaction = client_handler;
+	act2.sa_sigaction = &client_handler;
 	act2.sa_flags = SA_SIGINFO;
+	g_signal = 0;
 	if (sigaction(SIGUSR1, &act2, NULL) != 0)
 	{
 		write(2, "sigcation error\n", 16);
@@ -72,58 +76,3 @@ int	main(int argc, char *argv[])
 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i++]);
 	return (0);
 }
-
-// #include "minitalk.h"
-
-// volatile sig_atomic_t	g_signal;
-
-// void	args_check(int argc, char *argv[])
-// {
-// 	if (argc != 3)
-// 	{
-// 		write(2, "Error\n", 6);
-// 		write(2, "Usage: ./client [PID] [string]\n", 31);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	if (ft_atoi(argv[1]) < 0)
-// 	{
-// 		write(2, "Error\n", 6);
-// 		write(2, "Invalid PID.\n", 13);
-// 		exit(EXIT_FAILURE);
-// 	}
-// }
-
-// void	send_char(pid_t pid, char c)
-// {
-// 	int				bit;
-// 	int				i;
-// 	unsigned char	uc;
-
-// 	uc = (unsigned char)c;
-// 	i = 0;
-// 	while (i < 8)
-// 	{
-// 		usleep(50);
-// 		bit = (uc >> i) & 0x01;
-// 		if (kill(pid, SIGUSR1 + bit) == -1)
-// 		{
-// 			write(2, "Error\n", 6);
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		i++;
-// 	}
-// }
-
-// int	main(int argc, char *argv[])
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	args_check(argc, argv);
-// 	while (argv[2][i])
-// 	{
-// 		send_char((pid_t)ft_atoi(argv[1]), argv[2][i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
