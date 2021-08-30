@@ -11,8 +11,8 @@ void	server_handler(int signo, siginfo_t *info, void *context)
 
 static void	server_loop(void)
 {
-	static uint64_t	uc;
-	static int		count;
+	static unsigned char	uc;
+	static int				count;
 
 	while (g_signal == 0)
 		;
@@ -29,7 +29,11 @@ static void	server_loop(void)
 	}
 	if (g_signal < 0)
 		g_signal *= -1;
-	kill(g_signal, SIGUSR1);
+	if (kill(g_signal, SIGUSR1) == -1)
+	{
+		write(1, "reply ACk error\n", 16);
+		exit(EXIT_FAILURE);
+	}
 	g_signal = 0;
 }
 
