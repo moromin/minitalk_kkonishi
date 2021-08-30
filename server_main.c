@@ -56,32 +56,3 @@ int	main(void)
 		server_loop();
 	return (0);
 }
-
-// static void	server_loop(void)
-// {
-// 	static volatile unsigned char	uc;
-// 	static volatile sig_atomic_t	count;
-// 	static volatile unsigned char	buf[BUFSIZ];
-// 	static volatile sig_atomic_t	itr;
-
-// 	while (g_signal == 0)
-// 		usleep(1);
-// 	if (g_signal == SIGUSR1)
-// 		uc &= ~(1 << count);
-// 	if (g_signal == SIGUSR2)
-// 		uc |= (1 << count);
-// 	count++;
-// 	if (count % 8 == 0)
-// 		buf[itr++] = uc;
-// 	if (count % 8 == 0 && (itr == BUFSIZ - 1 || uc == 0))
-// 	{
-// 		ft_putstr((unsigned char *)buf, 1, (int)itr);
-// 		count = 0;
-// 		if (itr == BUFSIZ - 1)
-// 			clear_buf((unsigned char *)buf);
-// 		if (uc == 0)
-// 			write(1, "\n", 1);
-// 		itr = 0;
-// 	}
-// 	g_signal = 0;
-// }
