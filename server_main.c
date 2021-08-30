@@ -11,7 +11,7 @@ void	server_handler(int signo, siginfo_t *info, void *context)
 
 static void	server_loop(void)
 {
-	static int32_t	uc;
+	static uint64_t	uc;
 	static int		count;
 
 	while (g_signal == 0)
