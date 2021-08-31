@@ -58,3 +58,5 @@ samples/
 test*
 server
 client
+*.txt
+result*

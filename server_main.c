@@ -31,7 +31,7 @@ static void	server_loop(void)
 		g_signal *= -1;
 	if (kill(g_signal, SIGUSR1) == -1)
 	{
-		write(1, "reply ACk error\n", 16);
+		write(1, "reply ACK error\n", 16);
 		exit(EXIT_FAILURE);
 	}
 	g_signal = 0;
