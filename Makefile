@@ -23,9 +23,11 @@ $(NAME): $(C_OBJS) $(S_OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-bonus: $(BONUS_C_OBJS) $(BONUS_S_OBJS)
-	$(CC) $(CFLAGS) $(BONUS_C_OBJS) -L$(LIBFT_PATH) -lft -o $(CLIENT)
-	$(CC) $(CFLAGS) $(BONUS_S_OBJS) -L$(LIBFT_PATH) -lft -o $(SERVER)
+# bonus: $(BONUS_C_OBJS) $(BONUS_S_OBJS)
+# 	$(CC) $(CFLAGS) $(BONUS_C_OBJS) -L$(LIBFT_PATH) -lft -o $(CLIENT)
+# 	$(CC) $(CFLAGS) $(BONUS_S_OBJS) -L$(LIBFT_PATH) -lft -o $(SERVER)
+
+bonus: $(NAME)
 
 clean:
 	make clean -C $(LIBFT_PATH)
